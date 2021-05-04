@@ -1,0 +1,4 @@
+978-84-9283-379-5,No abras los ojos,John Verdon,Roca Editorial de Libros,2015-01-01,20.45,true
+978-84-9918-494-4,Deja en paz al diablo,John Verdon,Roca Editorial de Libros,2016-05-28,20.5,false
+978-84-675-3704-8,Escultismo para muchachos,Lord Robert Baden-Powell of Gilwell,Ediciones SM,2016-06-24,21.0,true
+978-84-450-0065-6,El hobbit,J.R.R. Tolkien,Editorial Planeta,2000-09-01,23.55,false
