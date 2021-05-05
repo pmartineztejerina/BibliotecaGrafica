@@ -140,10 +140,36 @@ public class BibliotecaController {
 		}
 		return lista;
 	}
+	
+	public List<Libro> filtrarEditorial(String editorial){
+		List<Libro> lista=new ArrayList<Libro>();
+		for (Libro libro : this.biblioteca) {
+			if (libro.getEditorial().equals(editorial)) {
+				lista.add(libro);
+			}
+			if (lista.size()==0) {
+				lista=null;
+			}
+		}
+		return lista;
+	}
+	
+	public List<Libro> filtrarPrestado(String prestado){
+		List<Libro> lista=new ArrayList<Libro>();
+		for (Libro libro : this.biblioteca) {
+			if (libro.isPrestado()==true) {
+				lista.add(libro);
+			}
+			if (lista.size()==0) {
+				lista=null;
+			}
+		}
+		return lista;
+	}
 
 	public boolean guardarBiblioteca(Libro libroGuardar) throws IOException {
 		// TODO Auto-generated method stub
-		FileWriter fw=new FileWriter("biblioteca2.txt");
+		FileWriter fw=new FileWriter("biblioteca.txt");
 		BufferedWriter bw=new BufferedWriter(fw);
 		String linea="";
 		for (Libro libro : biblioteca) {

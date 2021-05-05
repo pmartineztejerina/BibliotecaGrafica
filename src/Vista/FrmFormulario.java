@@ -65,7 +65,7 @@ public class FrmFormulario extends JFrame {
 	private JTextField textPrecio;
 	private JLabel lblaño;
 	private JLabel lblConsulta;
-	private JComboBox comboBox;
+	private JComboBox cmbConsulta;
 	private JTextField textField;
 	
 	private JButton btnFiltrar;
@@ -243,11 +243,11 @@ public class FrmFormulario extends JFrame {
 		lblConsulta.setBounds(332, 25, 66, 13);
 		panel.add(lblConsulta);
 		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Autor", "Editorial", "Fecha", "Precio", "Prestado"}));
-		comboBox.setFont(new Font("Verdana", Font.PLAIN, 12));
-		comboBox.setBounds(332, 58, 98, 21);
-		panel.add(comboBox);
+		cmbConsulta = new JComboBox();
+		cmbConsulta.setModel(new DefaultComboBoxModel(new String[] {"Autor", "Editorial", "Prestado"}));
+		cmbConsulta.setFont(new Font("Verdana", Font.PLAIN, 12));
+		cmbConsulta.setBounds(332, 58, 98, 21);
+		panel.add(cmbConsulta);
 		
 		textField = new JTextField();
 		textField.setBounds(454, 60, 246, 19);
@@ -545,10 +545,15 @@ public class FrmFormulario extends JFrame {
 							btnBackward.setEnabled(false);
 							btnBeginning.setEnabled(false);
 						}
-						
 					}
 				}
-				
+				try {
+					biblioteca.guardarBiblioteca(libro);
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(frame, e1.getMessage(),"¡ERROR!",JOptionPane.ERROR_MESSAGE);
+				}
 				cargarGrid(listadoLibros);
 			}
 		});
@@ -572,11 +577,14 @@ public class FrmFormulario extends JFrame {
 				try {
 					libro = new Libro(isbn, titulo, autor, editorial, fechaRegistro, precio, prestado);
 					biblioteca.agregarLibro(libro);
+					//guardo la biblioteca
+					biblioteca.guardarBiblioteca(libro);
 					
-				} catch (ParseException | CamposVaciosException | IsbnException | ContainsException e1) {
+				} catch (ParseException | CamposVaciosException | IsbnException | ContainsException | IOException e1) {
 					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(frame, e1.getMessage(),"¡ERROR!",JOptionPane.ERROR_MESSAGE);
 				}
+				
 				cargarGrid(listadoLibros);
 				
 			}
@@ -602,6 +610,44 @@ public class FrmFormulario extends JFrame {
 		
 		btnFiltrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String filtrado=cmbConsulta.getSelectedItem().toString();
+				if(filtrado.equals("Autor")) {
+					
+					List<Libro> lista;
+					lista=biblioteca.filtrarAutor(filtrado);
+					if (lista!= null) {
+						cargarGrid(lista);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "No hay libros con ese parametro");
+					}	
+				}
+				
+				if(filtrado.equals("Editorial")) {
+					
+					List<Libro> lista;
+					lista=biblioteca.filtrarEditorial(filtrado);
+					if (lista!= null) {
+						cargarGrid(lista);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "No hay libros con ese parametro");
+					}	
+				}
+				
+				if(filtrado.equals("Prestado")) {
+					
+					List<Libro> lista;
+					lista=biblioteca.filtrarPrestado(filtrado);
+					if (lista!= null) {
+						cargarGrid(lista);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "No hay libros con ese parametro");
+					}	
+				}
+				
+				
 			}
 		});
 	}
