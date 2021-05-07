@@ -63,10 +63,11 @@ public class FrmFormulario extends JFrame {
 	private JTextField textEditorial;
 	private JTextField textFecha;
 	private JTextField textPrecio;
+	private String libroMant[];
 	private JLabel lblaño;
 	private JLabel lblConsulta;
 	private JComboBox cmbConsulta;
-	private JTextField textField;
+	private JTextField txtFiltrado;
 	
 	private JButton btnFiltrar;
 	private JPanel panel_3;
@@ -105,6 +106,7 @@ public class FrmFormulario extends JFrame {
 		definirVentana(listadoLibros);
 		definirEventosNavegador(listadoLibros);
 		definirEventosMantenimiento();
+		habilitarPanelMantenimiento(listadoLibros);
 		
 		setVisible(true);
 	}
@@ -124,24 +126,28 @@ public class FrmFormulario extends JFrame {
 		icon=new ImageIcon("imagenes/add.png");
 		btnAgregar = new JButton("",icon);
 		btnAgregar.setBounds(10, 20, 40, 40);
+		btnAgregar.setEnabled(true);
 		panel_1.add(btnAgregar);
 		icon=null;
 		
 		icon=new ImageIcon("imagenes/edit.png");
 		btnEditar = new JButton("",icon);
 		btnEditar.setBounds(60, 20, 40, 40);
+		btnEditar.setEnabled(true);
 		panel_1.add(btnEditar);
 		icon=null;
 		
 		icon=new ImageIcon("imagenes/delete.png");
 		btnSuprimir = new JButton("",icon);
 		btnSuprimir.setBounds(110, 20, 40, 40);
+		btnSuprimir.setEnabled(true);
 		panel_1.add(btnSuprimir);
 		icon=null;
 		
 		icon=new ImageIcon("imagenes/save.png");
 		btnGuardar = new JButton("",icon);
 		btnGuardar.setBounds(160, 20, 40, 40);
+		btnGuardar.setEnabled(false);
 		panel_1.add(btnGuardar);
 		icon=null;
 		
@@ -186,42 +192,39 @@ public class FrmFormulario extends JFrame {
 		lblPrecio.setFont(new Font("Verdana", Font.PLAIN, 12));
 		lblPrecio.setBounds(10, 182, 45, 13);
 		panel_2.add(lblPrecio);
+	
 		
-		puntero=0;
-		//aqui podria llamar a un metodo mostrar libro		
-		String libro[]=listadoLibros.get(puntero).toString().split(",");
-		
-		textIsbn = new JTextField(libro[0]);
+		textIsbn = new JTextField();
 		textIsbn.setEditable(true);
 		textIsbn.setBounds(73, 18, 174, 19);
 		panel_2.add(textIsbn);
 		textIsbn.setColumns(10);
 		
-		textTitulo = new JTextField(libro[1]);
+		textTitulo = new JTextField();
 		textTitulo.setEditable(true);
 		textTitulo.setColumns(10);
 		textTitulo.setBounds(73, 53, 174, 19);
 		panel_2.add(textTitulo);
 		
-		textAutor = new JTextField(libro[2]);
+		textAutor = new JTextField();
 		textAutor.setEditable(true);
 		textAutor.setColumns(10);
 		textAutor.setBounds(73, 88, 174, 19);
 		panel_2.add(textAutor);
 		
-		textEditorial = new JTextField(libro[3]);
+		textEditorial = new JTextField();
 		textEditorial.setEditable(true);
 		textEditorial.setColumns(10);
 		textEditorial.setBounds(73, 120, 174, 19);
 		panel_2.add(textEditorial);
 		
-		textFecha = new JTextField(libro[4]);
+		textFecha = new JTextField();
 		textFecha.setEditable(true);
 		textFecha.setColumns(10);
 		textFecha.setBounds(73, 150, 82, 19);
 		panel_2.add(textFecha);
 		
-		textPrecio = new JTextField(libro[5]);
+		textPrecio = new JTextField();
 		textPrecio.setEditable(true);
 		textPrecio.setColumns(10);
 		textPrecio.setBounds(73, 180, 174, 19);
@@ -230,13 +233,14 @@ public class FrmFormulario extends JFrame {
 		lblaño = new JLabel("aaaa-MM-dd");
 		lblaño.setBounds(165, 153, 82, 13);
 		panel_2.add(lblaño);
-				
+		
 		chckbxPrestado = new JCheckBox("Prestado");
-		if (libro[6].contains("true")) {
-			chckbxPrestado.setSelected(true);
-		}
 		chckbxPrestado.setBounds(10, 212, 93, 21);
+		chckbxPrestado.setSelected(false);
 		panel_2.add(chckbxPrestado);
+		
+		habilitarPanelMantenimiento(listadoLibros);		
+		
 		
 		lblConsulta = new JLabel("Consulta");
 		lblConsulta.setFont(new Font("Verdana", Font.PLAIN, 12));
@@ -249,10 +253,10 @@ public class FrmFormulario extends JFrame {
 		cmbConsulta.setBounds(332, 58, 98, 21);
 		panel.add(cmbConsulta);
 		
-		textField = new JTextField();
-		textField.setBounds(454, 60, 246, 19);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtFiltrado = new JTextField();
+		txtFiltrado.setBounds(454, 60, 246, 19);
+		panel.add(txtFiltrado);
+		txtFiltrado.setColumns(10);
 		
 		btnFiltrar = new JButton("Filtrar");
 	
@@ -315,7 +319,25 @@ public class FrmFormulario extends JFrame {
 		
 		
 	}
-
+	private void habilitarPanelMantenimiento(List<Libro> listadoLibros) {
+		// TODO Auto-generated method stub
+		
+		//aqui podria llamar a un metodo mostrar libro		
+		puntero=0; 
+		libroMant=listadoLibros.get(puntero).toString().split(",");
+						
+		textIsbn.setText(libroMant[0]);
+		textTitulo.setText(libroMant[1]);
+		textAutor.setText(libroMant[2]);
+		textEditorial.setText(libroMant[3]);  
+		textFecha.setText(libroMant[4]);
+		textPrecio.setText(libroMant[5]);
+		if (libroMant[6].contains("true")) {
+			chckbxPrestado.setSelected(true);
+		}
+		
+		
+	}
 
 	private void cargarGrid(List<Libro> listadoLibros) {
 		// TODO Auto-generated method stub
@@ -488,11 +510,13 @@ public class FrmFormulario extends JFrame {
 				btnEnd.setEnabled(false);
 				btnEditar.setEnabled(false);
 				btnSuprimir.setEnabled(false);
+				btnGuardar.setEnabled(true);
 			}
 		});
 		
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				isbn=textIsbn.getText();
 				titulo=textTitulo.getText();
 				autor=textAutor.getText();
@@ -510,8 +534,10 @@ public class FrmFormulario extends JFrame {
 				try {
 					libro = new Libro(isbn, titulo, autor, editorial, fechaRegistro, precio, prestado);
 					biblioteca.editarLibro(libro,isbn, titulo, autor, editorial, fechaRegistro, precio, prestado);
+					//guardo la biblioteca
+					biblioteca.guardarBiblioteca(libro);
 					
-				} catch (ParseException | CamposVaciosException | IsbnException e1) {
+				} catch (ParseException | CamposVaciosException | IsbnException | IOException e1) {
 					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(frame, e1.getMessage(),"¡ERROR!",JOptionPane.ERROR_MESSAGE);
 				}
@@ -592,19 +618,18 @@ public class FrmFormulario extends JFrame {
 		
 		btnDeshacer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textIsbn.setText("");
-				textTitulo.setText("");
-				textAutor.setText("");
-				textEditorial.setText("");
-				textFecha.setText("");
-				textPrecio.setText("");
-				chckbxPrestado.setSelected(false);
-				btnBeginning.setEnabled(false);
-				btnBackward.setEnabled(false);
-				btnForward.setEnabled(false);
-				btnEnd.setEnabled(false);
-				btnEditar.setEnabled(false);
-				btnSuprimir.setEnabled(false);
+				
+				cargarGrid(listadoLibros);
+				habilitarPanelMantenimiento(listadoLibros);
+				btnForward.setEnabled(true);
+				btnEnd.setEnabled(true);
+				btnAgregar.setEnabled(true);
+				btnEditar.setEnabled(true);
+				btnSuprimir.setEnabled(true);
+				btnGuardar.setEnabled(false);
+				
+				habilitarPanelMantenimiento(listadoLibros);
+				
 			}
 		});
 		
@@ -614,7 +639,7 @@ public class FrmFormulario extends JFrame {
 				if(filtrado.equals("Autor")) {
 					
 					List<Libro> lista;
-					lista=biblioteca.filtrarAutor(filtrado);
+					lista=biblioteca.filtrarAutor(txtFiltrado.getText());
 					if (lista!= null) {
 						cargarGrid(lista);
 					}
@@ -626,7 +651,7 @@ public class FrmFormulario extends JFrame {
 				if(filtrado.equals("Editorial")) {
 					
 					List<Libro> lista;
-					lista=biblioteca.filtrarEditorial(filtrado);
+					lista=biblioteca.filtrarEditorial(txtFiltrado.getText());
 					if (lista!= null) {
 						cargarGrid(lista);
 					}
@@ -638,7 +663,7 @@ public class FrmFormulario extends JFrame {
 				if(filtrado.equals("Prestado")) {
 					
 					List<Libro> lista;
-					lista=biblioteca.filtrarPrestado(filtrado);
+					lista=biblioteca.filtrarPrestado(txtFiltrado.getText());
 					if (lista!= null) {
 						cargarGrid(lista);
 					}

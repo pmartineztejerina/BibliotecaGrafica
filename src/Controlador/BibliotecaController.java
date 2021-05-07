@@ -131,12 +131,13 @@ public class BibliotecaController {
 		// TODO Auto-generated method stub
 		List<Libro> lista=new ArrayList<Libro>();
 		for (Libro libro : this.biblioteca) {
-			if (libro.getAutor().equals(autor)) {
+			if (libro.getAutor().contains(autor)) {
 				lista.add(libro);
 			}
-			if (lista.size()==0) {
-				lista=null;
-			}
+			
+		}
+		if (lista.size()==0) {
+			lista=null;
 		}
 		return lista;
 	}
@@ -144,12 +145,13 @@ public class BibliotecaController {
 	public List<Libro> filtrarEditorial(String editorial){
 		List<Libro> lista=new ArrayList<Libro>();
 		for (Libro libro : this.biblioteca) {
-			if (libro.getEditorial().equals(editorial)) {
+			if (libro.getEditorial().contains(editorial)) {
 				lista.add(libro);
 			}
-			if (lista.size()==0) {
-				lista=null;
-			}
+			
+		}
+		if (lista.size()==0) {
+			lista=null;
 		}
 		return lista;
 	}
@@ -160,9 +162,10 @@ public class BibliotecaController {
 			if (libro.isPrestado()==true) {
 				lista.add(libro);
 			}
-			if (lista.size()==0) {
-				lista=null;
-			}
+			
+		}
+		if (lista.size()==0) {
+			lista=null;
 		}
 		return lista;
 	}
